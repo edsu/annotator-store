@@ -15,7 +15,29 @@ MAPPING = {
     'uri': {'type': 'string', 'index': 'not_analyzed'},
     'user' : {'type': 'string', 'index' : 'not_analyzed'},
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
-    'ranges': {
+    'target': {
+        'index_name': 'not_analyzed',
+        'properties': {
+            'selectors': {
+                'index_name': 'not_analyzed',
+                'properties': {
+                    # supported values: 'xpath+offset', 'context+position'
+                    'type': {'type': 'string', 'index_name': 'selector_type'},
+                    # parameters for 'xpath+offset' -type selectors
+                    'start': {'type': 'string', 'index': 'not_analyzed'},
+                    'end':   {'type': 'string', 'index': 'not_analyzed'},
+                    'startOffset': {'type': 'integer'},
+                    'endOffset':   {'type': 'integer'},
+                    # parameters for 'context+position' -type selectors
+                    'prefix': {'type': 'string', 'index': 'not_analyzed'},
+                    'postfix': {'type': 'string', 'index': 'not_analyzed'},
+                    'documentLength': {'type': 'integer'},
+                    'targetPosition': {'type': 'integer', 'index_name': 'target_position'},
+                }
+            }
+        }
+    },  
+    'ranges': {    #ranges is not used anymore, but annotations created earlier will have it, so we need to read it
         'index_name': 'range',
         'properties': {
             'start': {'type': 'string', 'index': 'not_analyzed'},
