@@ -21,9 +21,9 @@ MAPPING = {
             'selectors': {
                 'index_name': 'not_analyzed',
                 'properties': {
-                    # supported values: 'xpath+offset', 'context+position'
+                    # supported values: 'xpath range', 'context+position'
                     'type': {'type': 'string', 'index_name': 'selector_type'},
-                    # parameters for 'xpath+offset' -type selectors
+                    # parameters for 'xpath range' -type selectors
                     'start': {'type': 'string', 'index': 'not_analyzed'},
                     'end':   {'type': 'string', 'index': 'not_analyzed'},
                     'startOffset': {'type': 'integer'},
