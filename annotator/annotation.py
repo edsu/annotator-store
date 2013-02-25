@@ -9,7 +9,6 @@ MAPPING = {
     'annotator_schema_version': {'type': 'string'},
     'created': {'type': 'date'},
     'updated': {'type': 'date'},
-    'quote': {'type': 'string'},
     'tags': {'type': 'string', 'index_name': 'tag'},
     'text': {'type': 'string'},
     'uri': {'type': 'string', 'index': 'not_analyzed'},
@@ -18,21 +17,30 @@ MAPPING = {
     'target': {
         'index_name': 'not_analyzed',
         'properties': {
-            'selectors': {
+            'id': {'type': 'string', 'index': 'not_analyzed'},
+            'selector': {
                 'index_name': 'not_analyzed',
                 'properties': {
-                    # supported values: 'xpath range', 'context+position'
+                    'source': {'type': 'string', 'index': 'not_analyzed'},
+
+                    # supported values for type: 'xpath range', 'context+quote', 'position'
                     'type': {'type': 'string', 'index_name': 'selector_type'},
+
                     # parameters for 'xpath range' -type selectors
-                    'start': {'type': 'string', 'index': 'not_analyzed'},
-                    'end':   {'type': 'string', 'index': 'not_analyzed'},
+                    'startXpath': {'type': 'string', 'index': 'not_analyzed'},
+                    'endXpath':   {'type': 'string', 'index': 'not_analyzed'},
                     'startOffset': {'type': 'integer'},
                     'endOffset':   {'type': 'integer'},
-                    # parameters for 'context+position' -type selectors
+
+                    # parameters for 'context+quote' -type selectors
+                    'exact': {'type': 'string', 'index': 'not_analyzed'},
                     'prefix': {'type': 'string', 'index': 'not_analyzed'},
-                    'postfix': {'type': 'string', 'index': 'not_analyzed'},
-                    'documentLength': {'type': 'integer'},
-                    'targetPosition': {'type': 'integer', 'index_name': 'target_position'},
+                    'suffix': {'type': 'string', 'index': 'not_analyzed'},
+
+                    # parameters for 'position' -type selectors
+                    'start': {'type': 'integer', 'index_name': 'not_analyzed'},
+                    'end': {'type': 'integer', 'index_name': 'not_analyzed'},
+
                 }
             }
         }
