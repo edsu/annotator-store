@@ -9,7 +9,6 @@ MAPPING = {
     'annotator_schema_version': {'type': 'string'},
     'created': {'type': 'date'},
     'updated': {'type': 'date'},
-    'quote': {'type': 'string'},  #quote is not used anymore (obsoleted by the "context+quote" selector), but annotations created earlier will have it, so we need to read it
     'tags': {'type': 'string', 'index_name': 'tag'},
     'text': {'type': 'string'},
     'uri': {'type': 'string', 'index': 'not_analyzed'},
@@ -46,15 +45,6 @@ MAPPING = {
             }
         }
     },  
-    'ranges': {    #ranges is not used anymore (obsoleted by the "xpath range" selector), but annotations created earlier will have it, so we need to read it
-        'index_name': 'range',
-        'properties': {
-            'start': {'type': 'string', 'index': 'not_analyzed'},
-            'end':   {'type': 'string', 'index': 'not_analyzed'},
-            'startOffset': {'type': 'integer'},
-            'endOffset':   {'type': 'integer'},
-        }
-    },
     'permissions': {
         'index_name': 'permission',
         'properties': {
