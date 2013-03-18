@@ -17,32 +17,48 @@ MAPPING = {
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
 
     'target': {
-        'index_name': 'not_analyzed',
         'properties': {
-            'id': {'type': 'string', 'index': 'not_analyzed'},
-            'selector': {
-                'index_name': 'not_analyzed',
-                'properties': {
+            'id': {
+                'type': 'multi_field',
+                'path': 'just_name',
+                'fields': {
+                    'id': {'type': 'string', 'index': 'not_analyzed'},
+                    'uri': {'type': 'string', 'index': 'not_analyzed'},
+                },
+            },
+            'source': {
+                'type': 'multi_field',
+                'path': 'just_name',
+                'fields': {
                     'source': {'type': 'string', 'index': 'not_analyzed'},
+                    'uri': {'type': 'string', 'index': 'not_analyzed'},
+                },
+            },
+            'selector': {
+                'properties': {
+                    'type': {'type': 'string', 'index': 'no'},
 
-                    # supported values for type: 'xpath range', 'context+quote', 'position'
-                    'type': {'type': 'string', 'index_name': 'selector_type'},
+                    # Annotator XPath+offset selector
+                    'startContainer': {'type': 'string', 'index': 'no'},
+                    'startOffset': {'type': 'string', 'index': 'no'},
+                    'endContainer': {'type': 'string', 'index': 'no'},
+                    'endOffset': {'type': 'string', 'index': 'no'},
 
-                    # parameters for 'xpath range' -type selectors
-                    'startXpath': {'type': 'string', 'index': 'not_analyzed'},
-                    'endXpath':   {'type': 'string', 'index': 'not_analyzed'},
-                    'startOffset': {'type': 'integer'},
-                    'endOffset':   {'type': 'integer'},
+                    # Open Annotation TextQuoteSelector
+                    'exact': {
+                        'type': 'multi_field',
+                        'path': 'just_name',
+                        'fields': {
+                            'exact': {'type': 'string'},
+                            'quote': {'type': 'string'},
+                        },
+                    },
+                    'prefix': {'type': 'string'},
+                    'suffix': {'type': 'string'},
 
-                    # parameters for 'context+quote' -type selectors
-                    'exact': {'type': 'string', 'index': 'not_analyzed'},
-                    'prefix': {'type': 'string', 'index': 'not_analyzed'},
-                    'suffix': {'type': 'string', 'index': 'not_analyzed'},
-
-                    # parameters for 'position' -type selectors
-                    'start': {'type': 'integer', 'index_name': 'not_analyzed'},
-                    'end': {'type': 'integer', 'index_name': 'not_analyzed'},
-
+                    # Open Annotation (Data|Text)PositionSelector
+                    'start': {'type': 'integer'},
+                    'end':   {'type': 'integer'},
                 }
             }
         }
