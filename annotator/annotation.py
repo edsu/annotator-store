@@ -13,8 +13,9 @@ MAPPING = {
     'tags': {'type': 'string', 'index_name': 'tag'},
     'text': {'type': 'string'},
     'uri': {'type': 'string', 'index': 'not_analyzed'},
-    'user' : {'type': 'string', 'index' : 'not_analyzed'},
+    'user': {'type': 'string', 'index': 'not_analyzed'},
     'consumer': {'type': 'string', 'index': 'not_analyzed'},
+
     'target': {
         'index_name': 'not_analyzed',
         'properties': {
@@ -45,7 +46,8 @@ MAPPING = {
                 }
             }
         }
-    },  
+    },
+
     'permissions': {
         'index_name': 'permission',
         'properties': {
@@ -60,6 +62,8 @@ MAPPING = {
         'analyzer': 'thread'
     }
 }
+
+
 SETTINGS = {
     'analysis': {
         'analyzer': {
@@ -69,6 +73,7 @@ SETTINGS = {
         }
     }
 }
+
 
 class Annotation(es.Model):
 
