@@ -6,7 +6,6 @@ requires = [
     'pyes==0.19.1',
     'PyJWT==0.1.4',
     'iso8601==0.1.4',
-    'nose>=1.0'
 ]
 
 if sys.version_info < (2, 7):
