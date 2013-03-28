@@ -87,6 +87,7 @@ class _Model(dict):
             cls.es.conn.create_index_if_missing(cls.es.index)
         except pyes.exceptions.ElasticSearchException:
             log.warn('Index creation failed. If you are running against Bonsai Elasticsearch, this is expected and ignorable.')
+        cls.update_settings()
         cls.es.conn.put_mapping(cls.__type__, {'properties': cls.__mapping__}, cls.es.index)
 
     @classmethod
