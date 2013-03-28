@@ -1,5 +1,4 @@
 langauge: python
 services: 
   - elasticsearch
-script: 
-    nosetests
+script: nosetests
