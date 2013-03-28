@@ -1,3 +1,4 @@
 #!/bin/sh
 
-python setup.py nosetests
+python setup.py build
+nosetests

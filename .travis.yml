@@ -1,8 +1,5 @@
 langauge: python
-install:
-  - "pip install . --use-mirrors"
-  - "pip install nose"
 services: 
   - elasticsearch
 script: 
-    ./test.sh
+  ./test.sh
