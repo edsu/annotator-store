@@ -2,4 +2,4 @@ langauge: python
 services: 
   - elasticsearch
 script: 
-  ./test.sh
+    nosetests
