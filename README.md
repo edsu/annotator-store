@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/edsu/annotator-store.png)](http://travis-ci.org/edsu/annotator-store)
+[![Build Status](https://secure.travis-ci.org/hypothesis/annotator-store.png)](http://travis-ci.org/hypothesis/annotator-store)
 
 # Annotator Store
 
