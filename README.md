@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/edsu/annotator-store.png)](http://travis-ci.org/edsu/annotator-store)
+
 # Annotator Store
 
 This is a backend store for the [Annotator][1].
