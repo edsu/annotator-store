@@ -1,3 +1,7 @@
 langauge: python
+install:
+  - "pip install nose"
+services: 
+  - elasticsearch
 script: 
     ./test.sh

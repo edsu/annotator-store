@@ -25,6 +25,7 @@ setup(
     description = 'Database backend for the Annotator (http://annotateit.org)',
     license = 'MIT',
     keywords = 'annotation web javascript',
+    test_suite = 'tests',
 
     url = 'http://okfnlabs.org/annotator/',
     download_url = 'https://github.com/okfn/annotator-store',
