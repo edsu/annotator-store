@@ -41,9 +41,9 @@ MAPPING = {
 
                     # Annotator XPath+offset selector
                     'startContainer': {'type': 'string', 'index': 'no'},
-                    'startOffset': {'type': 'string', 'index': 'no'},
+                    'startOffset': {'type': 'long', 'index': 'no'},
                     'endContainer': {'type': 'string', 'index': 'no'},
-                    'endOffset': {'type': 'string', 'index': 'no'},
+                    'endOffset': {'type': 'long', 'index': 'no'},
 
                     # Open Annotation TextQuoteSelector
                     'exact': {
@@ -58,8 +58,8 @@ MAPPING = {
                     'suffix': {'type': 'string'},
 
                     # Open Annotation (Data|Text)PositionSelector
-                    'start': {'type': 'integer'},
-                    'end':   {'type': 'integer'},
+                    'start': {'type': 'long'},
+                    'end':   {'type': 'long'},
                 }
             }
         }
