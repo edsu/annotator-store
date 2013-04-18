@@ -74,21 +74,7 @@ MAPPING = {
             'admin':  {'type': 'string', 'index': 'not_analyzed'}
         }
     },
-    'thread': {
-        'type': 'string',
-        'analyzer': 'thread'
-    }
-}
-
-
-SETTINGS = {
-    'analysis': {
-        'analyzer': {
-            'thread': {
-                'tokenizer': 'path_hierarchy'
-            }
-        }
-    }
+    'references': {'type': 'string', 'index': 'not_analyzed'}
 }
 
 
@@ -96,7 +82,6 @@ class Annotation(es.Model):
 
     __type__ = TYPE
     __mapping__ = MAPPING
-    __settings__ = SETTINGS
 
     @classmethod
     def _build_query(cls, offset=0, limit=20, **kwargs):
