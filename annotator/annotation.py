@@ -74,6 +74,18 @@ MAPPING = {
     'thread': {
         'type': 'string',
         'analyzer': 'thread'
+    },
+    'document': {
+        'properties': {
+            'title': {'type': 'string'},
+            'link': {
+                'type': 'nested',
+                'properties': {
+                    'type': {'type': 'string', 'index': 'not_analyzed'},
+                    'href': {'type': 'string', 'index': 'not_analyzed'},
+                }
+            }
+        }
     }
 }
 
