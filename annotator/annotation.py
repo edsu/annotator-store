@@ -108,6 +108,11 @@ class Annotation(es.Model):
     __settings__ = SETTINGS
 
     @classmethod
+    def locate(cls, uri, offset=0, limit=20):
+        q = cls._builds_query(offset, limit)
+        print q
+
+    @classmethod
     def _build_query(cls, offset=0, limit=20, **kwargs):
         q = super(Annotation, cls)._build_query(offset, limit, **kwargs)
 
