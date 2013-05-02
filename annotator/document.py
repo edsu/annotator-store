@@ -5,6 +5,7 @@ MAPPING = {
     'annotator_schema_version': {'type': 'string'},
     'created': {'type': 'date'},
     'updated': {'type': 'date'},
+    'title': {'type': 'string'},
     'link': {
         'type': 'nested',
         'properties': {
@@ -12,7 +13,15 @@ MAPPING = {
             'href': {'type': 'string', 'index': 'not_analyzed'},
         }
     },
-    'title': {'type': 'string'}
+    'dc': {
+        'type': 'nested',
+        'properties': {
+            # by default elastic search will try to parse this as 
+            # a date but unfortunately the data that is in the wild 
+            # may not be parsable by ES which throws an exception
+            'date': {'type': 'string', 'index': 'not_analyzed'}
+        }
+    }
 }
 
 class Document(es.Model):
@@ -59,7 +68,8 @@ class Document(es.Model):
     def merge_links(self, links):
         current_uris = self.uris()
         for l in links:
-            if l['href'] and l['type'] and l['href'] not in current_uris:
+            href = l.get('href', None)
+            if href and href not in current_uris:
                 self['link'].append(l)
 
     def _uris_from_links(self, links):

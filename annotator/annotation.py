@@ -86,6 +86,15 @@ MAPPING = {
                     'type': {'type': 'string', 'index': 'not_analyzed'},
                     'href': {'type': 'string', 'index': 'not_analyzed'},
                 }
+            },
+            'dc': {
+                'type': 'nested',
+                'properties': {
+                    # by default elastic search will try to parse this as 
+                    # a date but unfortunately the data that is in the wild 
+                    # may not be parsable by ES which throws an exception
+                    'date': {'type': 'string', 'index': 'not_analyzed'}
+                }
             }
         }
     }
@@ -118,7 +127,10 @@ class Annotation(es.Model):
 
         if self.has_key("document"):
             d = self["document"]
-            uris = [link["href"] for link in d['link']]
+            uris = []
+            for link in d.get('link', []):
+                if link.has_key('href'):
+                    uris.append(link['href'])
             docs = Document.get_all_by_uris(uris)
 
             if len(docs) == 0:
