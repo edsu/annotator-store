@@ -91,7 +91,6 @@ class _Model(dict):
             cls.es.conn.create_index_if_missing(cls.es.index)
         except pyes.exceptions.ElasticSearchException:
             log.warn('Index creation failed. If you are running against Bonsai Elasticsearch, this is expected and ignorable.')
-        cls.update_settings()
         cls.es.conn.put_mapping(cls.__type__, {'properties': cls.__mapping__}, cls.es.index)
 
     @classmethod
@@ -99,17 +98,6 @@ class _Model(dict):
         if cls.es.conn.exists_index(cls.es.index):
             cls.es.conn.close_index(cls.es.index)
         cls.es.conn.delete_index_if_exists(cls.es.index)
-
-    @classmethod
-    def update_settings(cls):
-        settings = getattr(cls, '__settings__', None)
-        if not settings:
-            return
-        cls.es.conn.close_index(cls.es.index)
-        try:
-            cls.es.conn.update_settings(cls.es.index, settings)
-        finally:
-            cls.es.conn.open_index(cls.es.index)
 
     # It would be lovely if this were called 'get', but the dict semantics
     # already define that method name.
@@ -276,5 +264,3 @@ def _add_created(ann):
 
 def _add_updated(ann):
     ann['updated'] = datetime.datetime.now(iso8601.iso8601.UTC).isoformat()
-
-
