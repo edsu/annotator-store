@@ -41,9 +41,9 @@ MAPPING = {
 
                     # Annotator XPath+offset selector
                     'startContainer': {'type': 'string', 'index': 'no'},
-                    'startOffset': {'type': 'string', 'index': 'no'},
+                    'startOffset': {'type': 'long', 'index': 'no'},
                     'endContainer': {'type': 'string', 'index': 'no'},
-                    'endOffset': {'type': 'string', 'index': 'no'},
+                    'endOffset': {'type': 'long', 'index': 'no'},
 
                     # Open Annotation TextQuoteSelector
                     'exact': {
@@ -58,8 +58,8 @@ MAPPING = {
                     'suffix': {'type': 'string'},
 
                     # Open Annotation (Data|Text)PositionSelector
-                    'start': {'type': 'integer'},
-                    'end':   {'type': 'integer'},
+                    'start': {'type': 'long'},
+                    'end':   {'type': 'long'},
                 }
             }
         }
@@ -74,21 +74,7 @@ MAPPING = {
             'admin':  {'type': 'string', 'index': 'not_analyzed'}
         }
     },
-    'thread': {
-        'type': 'string',
-        'analyzer': 'thread'
-    }
-}
-
-
-SETTINGS = {
-    'analysis': {
-        'analyzer': {
-            'thread': {
-                'tokenizer': 'path_hierarchy'
-            }
-        }
-    }
+    'references': {'type': 'string', 'index': 'not_analyzed'}
 }
 
 
@@ -96,7 +82,6 @@ class Annotation(es.Model):
 
     __type__ = TYPE
     __mapping__ = MAPPING
-    __settings__ = SETTINGS
 
     @classmethod
     def _build_query(cls, offset=0, limit=20, **kwargs):

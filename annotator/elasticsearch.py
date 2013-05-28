@@ -94,14 +94,6 @@ class _Model(dict):
     def drop_all(cls):
         cls.es.conn.delete_index_if_exists(cls.es.index)
 
-    @classmethod
-    def update_settings(cls):
-        cls.es.conn.close_index(cls.es.index)
-        try:
-            cls.es.conn.update_settings(cls.es.index, getattr(cls, '__settings__', {}))
-        finally:
-            cls.es.conn.open_index(cls.es.index)
-
     # It would be lovely if this were called 'get', but the dict semantics
     # already define that method name.
     @classmethod
