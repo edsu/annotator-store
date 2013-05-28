@@ -25,21 +25,23 @@ class TestAnnotation(TestCase):
 
     def test_save_refresh(self):
         a = Annotation(name='bob')
-        c = pa.es.conn
+        c = a.es.conn
         a.save(refresh=True)
         assert_true('id' in a)
 
-    def test_save_refresh(self):
+    def test_save_assert_refresh(self):
         a = Annotation(name='bob')
         a.es = MagicMock()
+        a.es.index = 'foo'
         a.save()
-        assert_equal(1, a.es.conn.refresh.call_count)
+        a.es.conn._send_request.assert_called_with('POST', '/foo/_refresh')
 
     def test_save_refresh_disable(self):
         a = Annotation(name='bob')
         a.es = MagicMock()
+        a.es.index = 'foo'
         a.save(refresh=False)
-        assert_false(a.es.conn.refresh.called)
+        a.es.conn._send_request.assert_not_called_with('POST', '/foo/_refresh')
 
     def test_fetch(self):
         a = Annotation(foo='bar')
@@ -63,12 +65,21 @@ class TestAnnotation(TestCase):
         ann['ranges'] = []
         ann['ranges'].append({})
         ann['ranges'].append({})
+        ann['document'] = {
+            'title': 'Annotation for Dummies',
+            'link': [
+                {'href': 'http://example.com/1234', 'type': 'application/pdf'}
+            ]
+        }
         ann.save()
 
         ann = Annotation.fetch(ann.id)
         assert_equal(ann['text'], "Hello there")
         assert_equal(ann['user'], "alice")
         assert_equal(len(ann['ranges']), 2)
+        assert_equal(ann['document']['title'], 'Annotation for Dummies')
+        assert_equal(ann['document']['link'][0]['href'], 'http://example.com/1234')
+        assert_equal(ann['document']['link'][0]['type'], 'application/pdf')
 
     def test_search(self):
         perms = {'read': ['group:__world__']}
@@ -240,3 +251,45 @@ class TestAnnotation(TestCase):
 
         res = Annotation.search()
         assert_equal(len(res), 1)
+
+    def test_cross_representations(self):
+
+        # create an annotation for an html document which we can 
+        # scrape some document metadata from, including a link to a pdf
+
+        a1 = Annotation(uri='http://example.com/1234', 
+                        text='annotation1',
+                        user='alice',
+                        document = {
+                            "link": [
+                                {
+                                    "href": "http://example.com/1234",
+                                    "type": "text/html"
+                                },
+                                {
+                                    "href": "http://example.com/1234.pdf",
+                                    "type": "application/pdf"
+                                }
+                            ]
+                        },
+                        consumer='testconsumer')
+        a1.save()
+
+        # create an annotation for the pdf that lacks document metadata since
+        # annotator doesn't currently extract information from pdfs
+
+        a2 = Annotation(uri='http://example.com/1234.pdf', 
+                        text='annotation2',
+                        user='alice',
+                        consumer='testconsumer')
+        a2.save()
+
+        # now a query for annotations of the pdf should yield both annotations
+
+        g.user = h.MockUser('alice', 'testconsumer')
+        res = Annotation.search(uri='http://example.com/1234.pdf')
+        assert_equal(len(res), 2)
+        
+        # and likewise for annotations of the html
+        res = Annotation.search(uri='http://example.com/1234')
+        assert_equal(len(res), 2)
